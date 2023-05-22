@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fare Earnings Calculator</title>
+  <script>
+    function calculateEarnings() {
+      // Coefficients for each class of service
+      var classCoefficients = {
+        economy: {
+          distance: 0.5,
+          duration: 0.1,
+          surgeRatio: 1.0,
+          commission: 0.1
+        },
+        premium: {
+          distance: 1.0,
+          duration: 0.2,
+          surgeRatio: 1.5,
+          commission: 0.2
+        },
+        luxury: {
+          distance: 1.5,
+          duration: 0.3,
+          surgeRatio: 2.0,
+          commission: 0.3
+        }
+      };
+
+      // Get inputs from the form
+      var distance = parseFloat(document.getElementById("distance").value);
+      var duration = parseFloat(document.getElementById("duration").value);
+      var surgeRatio = parseFloat(document.getElementById("surgeRatio").value);
+      var selectedClass = document.getElementById("serviceClass").value;
+
+      // Calculate fare earnings
+      var earnings = (
+        classCoefficients[selectedClass].distance * distance +
+        classCoefficients[selectedClass].duration * duration +
+        classCoefficients[selectedClass].surgeRatio * surgeRatio
+      ) * (1 - classCoefficients[selectedClass].commission);
+
+      // Display the result
+      document.getElementById("earnings").textContent = "Fare Earnings: $" + earnings.toFixed(2);
+    }
+  </script>
+</head>
+<body>
+  <h1>Fare Earnings Calculator</h1>
+
+  <form>
+    <label for="distance">Distance (in miles):</label>
+    <input type="number" id="distance" step="0.01" required><br>
+
+    <label for="duration">Duration (in minutes):</label>
+    <input type="number" id="duration" step="1" required><br>
+
+    <label for="surgeRatio">Surge Ratio:</label>
+    <input type="number" id="surgeRatio" step="0.01" required><br>
+
+    <label for="serviceClass">Service Class:</label>
+    <select id="serviceClass" required>
+      <option value="economy">Economy</option>
+      <option value="premium">Premium</option>
+      <option value="luxury">Luxury</option>
+    </select><br>
+
+    <button type="button" onclick="calculateEarnings()">Calculate</button>
+  </form>
+
+  <p id="earnings"></p>
+</body>
+</html>
